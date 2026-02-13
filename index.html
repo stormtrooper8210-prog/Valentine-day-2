@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Forever – Nirgam ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+body{
+background:#14001f;
+color:white;
+font-family:'Poppins',sans-serif;
+overflow-x:hidden;
+}
+
+/* Romantic Glow Background */
+body::before{
+content:"";
+position:fixed;
+width:120%;
+height:120%;
+background:
+radial-gradient(circle at 30% 40%, rgba(255,20,147,0.6), transparent 50%),
+radial-gradient(circle at 70% 70%, rgba(255,105,180,0.4), transparent 50%);
+animation:moveGlow 14s infinite alternate;
+z-index:-1;
+}
+@keyframes moveGlow{
+from{transform:translate(-5%,-5%);}
+to{transform:translate(5%,5%);}
+}
+
+/* Custom Cursor */
+.cursor{
+width:18px;height:18px;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+background:radial-gradient(circle,#ff4fa3,#ff1493);
+box-shadow:0 0 20px #ff1493;
+z-index:5000;
+transform:translate(-50%,-50%);
+}
+
+/* Sections */
+section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:80px 20px;
+opacity:0;
+transform:translateY(40px);
+transition:1.2s;
+}
+section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* Romantic Title */
+.main-title{
+font-family:'Playfair Display',serif;
+font-size:75px;
+background:linear-gradient(90deg,#ff4fa3,#ffc0f5,#ff4fa3);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 30px rgba(255,0,150,0.8);
+margin-bottom:20px;
+}
+
+.subtitle{
+font-size:22px;
+color:#ffd6f7;
+max-width:750px;
+}
+
+/* Parallax Photo */
+.photo{
+width:90%;
+max-width:900px;
+height:70vh;
+background:url('your-photo.jpg') center/cover fixed;
+border-radius:30px;
+box-shadow:0 30px 60px rgba(255,0,150,0.6);
+margin-top:40px;
+}
+
+/* Romantic Video Section */
+.video-container{
+width:90%;
+max-width:900px;
+margin-top:40px;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 30px 60px rgba(255,0,150,0.5);
+}
+
+video{
+width:100%;
+display:block;
+}
+
+/* Buttons */
+.btn{
+padding:15px 40px;
+border-radius:50px;
+border:none;
+font-weight:600;
+margin:15px;
+font-size:17px;
+transition:0.3s;
+cursor:pointer;
+}
+
+.yes{
+background:linear-gradient(90deg,#ff1493,#ff69b4);
+color:white;
+box-shadow:0 0 30px rgba(255,0,150,0.8);
+}
+.yes:hover{transform:scale(1.1);}
+
+.no{
+background:white;
+color:#ff1493;
+position:relative;
+}
+
+/* Countdown */
+#countdown{
+font-size:28px;
+margin-top:20px;
+color:#ffd6f7;
+}
+
+/* Secret */
+#secret{
+display:none;
+margin-top:20px;
+font-size:20px;
+color:#ffc0f5;
+}
+
+canvas{
+position:fixed;
+top:0;left:0;
+pointer-events:none;
+z-index:1500;
+}
+
+@media(max-width:768px){
+.main-title{font-size:45px;}
+.photo{background-attachment:scroll;}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<canvas id="fireworks"></canvas>
+<div class="cursor" id="cursor"></div>
+
+<!-- HERO -->
+<section>
+<h1 class="main-title">Our Forever Story</h1>
+<p class="subtitle">
+Nirgam, since 28 September 2025, every heartbeat has whispered your name.
+And today at midnight, I still choose you.
+– Tabarak
+</p>
+</section>
+
+<!-- PHOTO -->
+<section>
+<h2 class="main-title" style="font-size:45px;">Us Together</h2>
+<div class="photo"></div>
+<p style="margin-top:15px;color:#ffd6f7;">Replace "your-photo.jpg" with your real picture</p>
+</section>
+
+<!-- VIDEO SECTION -->
+<section>
+<h2 class="main-title" style="font-size:45px;">Our Special Moments</h2>
+<div class="video-container">
+<video controls>
+<source src="your-video.mp4" type="video/mp4">
+Your browser does not support video.
+</video>
+</div>
+<p style="margin-top:15px;color:#ffd6f7;">Replace "your-video.mp4" with your real video file</p>
+</section>
+
+<!-- COUNTDOWN -->
+<section>
+<h2 class="main-title" style="font-size:45px;">Until 28 September 2026</h2>
+<div id="countdown"></div>
+</section>
+
+<!-- PROPOSAL -->
+<section>
+<h2 class="main-title" style="font-size:45px;">Will You Be Mine Forever?</h2>
+<button class="btn yes" onclick="celebrate()">YES</button>
+<button class="btn no" id="noBtn">NO</button>
+<p id="secret">Midnight truth: I will always choose you. ❤️</p>
+</section>
+
+<script>
+
+/* Cursor */
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* Scroll reveal */
+const sections=document.querySelectorAll("section");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){entry.target.classList.add("show");}
+});
+});
+sections.forEach(sec=>observer.observe(sec));
+
+/* Countdown */
+function updateCountdown(){
+const target=new Date("September 28, 2026 00:00:00").getTime();
+const now=new Date().getTime();
+const diff=target-now;
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=
+`${d} Days ${h} Hours ${m} Minutes ${s} Seconds`;
+}
+setInterval(updateCountdown,1000);
+
+/* Dancing NO */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.transform=`translate(${Math.random()*300-150}px,${Math.random()*200-100}px)`;
+});
+
+/* Celebrate */
+function celebrate(){
+document.getElementById("secret").style.display="block";
+fireworks();
+}
+
+/* Fireworks */
+function fireworks(){
+const fw=document.getElementById("fireworks");
+const ctx=fw.getContext("2d");
+fw.width=window.innerWidth;
+fw.height=window.innerHeight;
+for(let i=0;i<250;i++){
+ctx.beginPath();
+ctx.arc(Math.random()*fw.width,
+Math.random()*fw.height,
+3,0,Math.PI*2);
+ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+ctx.fill();
+}
+setTimeout(()=>ctx.clearRect(0,0,fw.width,fw.height),1500);
+}
+
+/* Particles */
+const pcanvas=document.getElementById("particles");
+const pctx=pcanvas.getContext("2d");
+pcanvas.width=window.innerWidth;
+pcanvas.height=window.innerHeight;
+let particles=[];
+for(let i=0;i<120;i++){
+particles.push({x:Math.random()*pcanvas.width,y:Math.random()*pcanvas.height,r:Math.random()*2});
+}
+function animateParticles(){
+pctx.clearRect(0,0,pcanvas.width,pcanvas.height);
+particles.forEach(p=>{
+pctx.beginPath();
+pctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+pctx.fillStyle="rgba(255,192,245,0.6)";
+pctx.fill();
+p.y-=0.3;
+if(p.y<0)p.y=pcanvas.height;
+});
+requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+</script>
+
+</body>
+</html>
